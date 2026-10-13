@@ -1,0 +1,27 @@
+{
+  "name": "olywork",
+  "displayName": "olywork",
+  "version": "0.15.0",
+  "description": "A shared catalog and proxy for agent tools. Search by task, review transparent per-call pricing, and call tools without managing provider keys.",
+  "author": {
+    "name": "Olywork",
+    "email": "taqi@olywork.com",
+    "url": "https://olywork.com"
+  },
+  "homepage": "https://olywork.com",
+  "repository": "https://github.com/meettaqi/olywork-V2",
+  "license": "Apache-2.0",
+  "keywords": [
+    "api",
+    "tools",
+    "seo",
+    "serp",
+    "backlinks",
+    "enrichment",
+    "web-data",
+    "oauth"
+  ],
+  "logo": "assets/logo.svg",
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json"
+}

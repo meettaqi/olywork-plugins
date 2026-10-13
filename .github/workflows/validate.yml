@@ -1,0 +1,47 @@
+name: Validate plugins
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reject obvious credential material
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -RInE --exclude='*.png' --exclude='*.svg' \
+            '(BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|ghp_[A-Za-z0-9]+|sk-[A-Za-z0-9]+|AIza[A-Za-z0-9_-]+)' .; then
+            echo 'Credential-like material found in plugin sources.' >&2
+            exit 1
+          fi
+      - name: Check required files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s LICENSE
+          test -s README.md
+          test -s ATTRIBUTIONS.md
+          test -d plugins
+          python3 - <<'PYCODE'
+          import json
+          from pathlib import Path
+          schema = json.loads(Path('vendors/schema.json').read_text())
+          required = set(schema['required'])
+          for path in Path('vendors').glob('*.json'):
+              if path.name == 'schema.json':
+                  continue
+              data = json.loads(path.read_text())
+              missing = required - data.keys()
+              if missing:
+                  raise SystemExit(f'{path}: missing {sorted(missing)}')
+              if not str(data['homepage']).startswith('https://'):
+                  raise SystemExit(f'{path}: homepage must use HTTPS')
+          print('vendor listings: OK')
+          PYCODE

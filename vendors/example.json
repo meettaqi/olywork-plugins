@@ -1,0 +1,14 @@
+{
+  "slug": "example-provider",
+  "name": "Example Provider",
+  "homepage": "https://example.com",
+  "docs": "https://example.com/docs",
+  "categories": [
+    "example"
+  ],
+  "integration": {
+    "kind": "openapi",
+    "oauth": false
+  },
+  "license": "See the provider's official brand and API terms"
+}

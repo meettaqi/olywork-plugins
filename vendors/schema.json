@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://olywork.com/schemas/vendor.json",
+  "title": "Olywork public vendor metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["slug", "name", "homepage", "categories", "integration"],
+  "properties": {
+    "slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "name": {"type": "string", "minLength": 1},
+    "homepage": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "docs": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "logo": {"type": "string", "description": "URL or repository-relative asset supplied under compatible terms"},
+    "categories": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+    "integration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {"enum": ["openapi", "mcp", "http", "oauth", "skill"]},
+        "manifest": {"type": "string"},
+        "oauth": {"type": "boolean", "default": false}
+      }
+    },
+    "license": {"type": "string"},
+    "notes": {"type": "string"}
+  }
+}
